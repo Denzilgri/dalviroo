@@ -56,6 +56,7 @@
 
             var socket = io();
 
+            // event handler callback for 'Done' buttons
             function clickEventHandler(evt) {
                 var id = $(evt.target).data('value');
                 var tdList = $($(evt.target).parent()).siblings();
@@ -78,6 +79,7 @@
                 }
             }
 
+            // event listener for kitchen broadcasts
             socket.on('broadcastKitchen', function (data) {
                 var productItemChildren = $('tr#' + data.productId).children();
                 $(productItemChildren[1]).text(data.quantity);
@@ -101,11 +103,13 @@
 
             $('.submit-btn').on('click', clickEventHandler);
 
+            // event listener for predicted value updates
             socket.on('updatePredictedValue', function (data) {
                 var predictedVal = $('tr#'+ data.id).children()[3];
                 $(predictedVal).text(data.predicted);
             });
 
+            // event handler for new product updates
             socket.on('updateProducts', function (data) {
                 var product = data.product;
                 

@@ -39,27 +39,37 @@ module.exports = (app, connectionObject, io) => {
                 connectionObject.isDbConnected = true;
             }
 
-            const update = {
-                Quantity: Number(data.quantity) - 1,
-                CreatedTillNow: Number(data.createdTillNow) + 1
-            };
-
             connectionObject.FoodOrderData.update({
-                '_id': data.productId
-            }, update, (err) => {
+                '_id': data.productId,
+                'Quantity': { $gt: 0 }
+            }, {
+                $inc: {
+                    Quantity: -1,
+                    CreatedTillNow: 1
+                }
+            }, (err) => {
 
                 if (err) throw err;
 
-                io.sockets.emit('broadcastKitchen', {
-                    'quantity': Number(data.quantity) - 1,
-                    'createdTillNow': Number(data.createdTillNow) + 1,
-                    'productId': data.productId
-                });
+                connectionObject.FoodOrderData.find({
+                        '_id': data.productId
+                    },
+                    '_id Quantity CreatedTillNow', (error, results) => {
+                        if (error) throw error;
 
-                if (connectionObject.isDbConnected) {
-                    connectionObject.connection.close();
-                    connectionObject.isDbConnected = false;
-                }
+                        io.sockets.emit('broadcastKitchen', {
+                            'quantity': results[0]['Quantity'],
+                            'createdTillNow': results[0]['CreatedTillNow'],
+                            'productId': results[0]['_id']
+                        });
+
+                        if (connectionObject.isDbConnected) {
+                            connectionObject.connection.close();
+                            connectionObject.isDbConnected = false;
+                        }
+
+                    });
+
             });
 
         });
