@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Dalviroo Orders</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/stylesheets/styles.css">
+</head>
+<body>
+    <main>
+        <section>
+            <div class="container">
+                
+            </div>
+        </section>
+    </main>
+    <section class="container">
+        <div class="jumbotron product-order-jumbotron">
+            <div class="product-order">
+                <h1>Provide Order</h1>
+                <form method="POST" action="/productOrder" name="productOrder">
+                    <div class="row justify-content-md-center">
+                        <div class="dalviroo-form-fields col col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"><label for="productName">Product:</label></div>
+                        <div class="dalviroo-form-fields col col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"><input type="text" name="productName" id="productName"></div>
+                        <div class="dalviroo-form-fields col col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"><label for="quantity">Quantity:</label></div>
+                        <div class="dalviroo-form-fields col col-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"><input type="number" name="quantity" id="quantity"></div>
+                        <input class="btn btn-danger" id="product-order-btn" type="submit" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

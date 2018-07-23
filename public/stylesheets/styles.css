@@ -1,0 +1,193 @@
+body {
+    background: #422872;
+}
+
+.container {
+    margin-top: 100px;
+}
+
+.custom-jumbotron {
+    background-image: linear-gradient(90deg,#9f80f9,#7ea6ff);
+}
+
+nav {
+    display: block;
+    width: 100%;
+}
+
+nav.nav-css {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+.app-links {
+    text-align: center;
+}
+
+.app-links a {
+    color: black;
+    background-image: linear-gradient(90deg,rgba(255,255,255,0.3), rgba(255,255,255,0.3));
+    height: 150px;
+    width: 100%;
+    display: inline-block;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #fff;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    transition: box-shadow 200ms;
+}
+
+.app-links a span {
+    position: relative;
+    top: calc(50% - 16px);
+}
+
+.app-links a:link,
+.app-links a:visited {
+    box-shadow: 5px 5px 25px 0 rgba(46, 61, 73, 0.4);
+}
+
+.app-links a:hover,
+.app-links a:active {
+    box-shadow: 5px 5px 10px 0 rgba(46, 61, 73, 0.2);
+}
+
+.dalviroo-form-fields {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    color: #fff;
+}
+
+/*
+------------------------------------------------------------------------
+                    Product Order styles
+------------------------------------------------------------------------
+*/
+
+.product-order-jumbotron {
+    background-image: linear-gradient(90deg, #ff5a5a, #ffa100);
+}
+
+.product-order h1 {
+    color: #fff;
+    text-align: center;
+}
+
+#product-order-btn {
+    margin: 15px;
+}
+
+/*
+------------------------------------------------------------------------
+                    Product Order styles
+------------------------------------------------------------------------
+*/
+.predict-quantity-jumbotron {
+    background-image: linear-gradient(90deg, #835aff, #e400ff);
+}
+
+.predict-order h1 {
+    color: #fff;
+    text-align: center;
+}
+
+#predict-quantity-btn {
+    margin: 15px;
+}
+
+select#productName {
+    color: #fff;
+    background-color: transparent;
+}
+
+/*
+------------------------------------------------------------------------
+                    Kitchen display screen styles
+------------------------------------------------------------------------
+*/
+.table td, .table th {
+    border: transparent;
+}
+
+.kitchen-jumbotron {
+    background-image: linear-gradient(90deg, #f7f2b1, #ffdf74);
+}
+
+button.kitchen-btn {
+    font-weight: 500;
+    border-color: #ffe484;
+    color: #ffe484;
+    background-color: #563d7c;
+}
+
+button.kitchen-btn:link,
+button.kitchen-btn:visited {
+    color: #ffe484;
+    background-color: #563d7c;
+}
+
+button.kitchen-btn:hover,
+button.kitchen-btn:active {
+    color: #563d7c;
+    background-color: #ffe484;
+    border-color: #563d7c;
+}
+
+#kitchenModalCenter {
+    display: none;
+    text-align: center;
+}
+
+/*
+------------------------------------------------------------------------
+                    kitchen report styles
+------------------------------------------------------------------------
+*/
+.report-jumbotron {
+    background-image: linear-gradient(90deg, #f7f2b1, #ffdf74);
+}
+
+.predict-order h1 {
+    color: #563d7c;
+}
+
+#download-report {
+    text-decoration: none;
+    color: #563d7c;
+    display: inline-block;
+    padding: 10px;
+    border: 1px solid #563d7c;
+    border-radius: 5px;
+    transition: color 200ms, background-color 200ms;
+}
+
+#download-report:link,
+#download-report:visited {
+    background-color: #ffe484;
+    color: #563d7c;
+}
+
+#download-report:active,
+#download-report:hover {
+    color: #ffe484;
+    background-color: #563d7c;
+}
+
+/*
+------------------------------------------------------------------------
+                    Media queries
+------------------------------------------------------------------------
+*/
+
+@media screen and (min-width: 768px) {
+    .product-order label {
+        position: relative;
+        left: calc(80% - 58px);
+    }
+
+    .predict-order label {
+        position: relative;
+        left: calc(80% - 58px);
+    }
+}

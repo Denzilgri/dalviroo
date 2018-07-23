@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Dalviroo Kitchen Display</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/stylesheets/styles.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+    <main>
+        <section>
+            <div class="container">
+                <div class="jumbotron kitchen-jumbotron">
+                    <table class="table">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Name</th>
+                                <th>Quantity</th>
+                                <th>Created-till-now</th>
+                                <th>Predicted</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% results.forEach(function(product) { %>
+                            <tr id="<%=product._id%>">
+                                <td><%=product.Name%></td>
+                                <td><%=product.Quantity%></td>
+                                <td><%=product.CreatedTillNow%></td>
+                                <td><%=product.Predicted ? product.Predicted : 'NA'%></td>
+                                <td><button data-value="<%=product._id%>" class="submit-btn btn kitchen-btn">Done</button></td>
+                            </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                    <div id="alert-msg"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <div id="kitchenModalCenter" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <p>Loading...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+
+        $(function () {
+
+            var socket = io();
+
+            function clickEventHandler(evt) {
+                var id = $(evt.target).data('value');
+                var tdList = $($(evt.target).parent()).siblings();
+
+                productsMap[id].quantity = $(tdList[1]).text();
+                productsMap[id].createdTillNow = $(tdList[2]).text();
+
+                if (productsMap[id].quantity > 0) {
+                    $('#kitchenModalCenter').css('display', 'block');
+                    $('#kitchenModalCenter').addClass('show');
+                    socket.emit('broadcastKitchen', {
+                        productId: productsMap[id].productId,
+                        quantity: productsMap[id].quantity,
+                        createdTillNow: productsMap[id].createdTillNow,
+                        predicted: productsMap[id].predicted
+                    });
+                    $('#alert-msg').text('');
+                } else {
+                    $('#alert-msg').text('No more orders left.');
+                }
+            }
+
+            socket.on('broadcastKitchen', function (data) {
+                var productItemChildren = $('tr#' + data.productId).children();
+                $(productItemChildren[1]).text(data.quantity);
+                $(productItemChildren[2]).text(data.createdTillNow);
+                $('#kitchenModalCenter').css('display', 'none');
+                if ($('#kitchenModalCenter').hasClass('show')) {
+                    $('#kitchenModalCenter').removeClass('show');
+                }
+            });
+
+            var productsMap = {};
+
+            <% results.forEach(function(product) { %>
+                productsMap['<%=product._id%>'] = {
+                    productId: '<%=product._id%>',
+                    quantity: <%=product.Quantity%>,
+                    createdTillNow: <%=product.CreatedTillNow%>,
+                    predicted: <%=product.Predicted ? product.Predicted : 0%>
+                };
+            <% }); %>
+
+            $('.submit-btn').on('click', clickEventHandler);
+
+            socket.on('updatePredictedValue', function (data) {
+                var predictedVal = $('tr#'+ data.id).children()[3];
+                $(predictedVal).text(data.predicted);
+            });
+
+            socket.on('updateProducts', function (data) {
+                var product = data.product;
+                
+                if (data.exists) {
+                    var quantity = $('tr#' + product._id).children()[1];
+                    $(quantity).text(product.Quantity);
+                } else {
+                    var content = '';
+                    content += '<tr id="' + product._id + '">'
+                                + '<td>' + product.Name + '</td>' 
+                                + '<td>' + product.Quantity + '</td>' 
+                                + '<td>' + product.CreatedTillNow + '</td>' 
+                                + '<td>' + (product.Predicted ? product.Predicted : 'NA') + '</td>' 
+                                + '<td><button data-value="' + product._id + '" class="submit-btn btn kitchen-btn">Done</button></td>'
+                                + '</tr>';
+                    $('tbody').append(content);
+                    productsMap[product._id] = {
+                        productId: String(product._id),
+                        quantity: product.Quantity,
+                        createdTillNow: product.CreatedTillNow,
+                        predicted: product.Predicted ? product.Predicted : 0
+                    };
+                    $(document).on('click', '.submit-btn', clickEventHandler)
+                }
+            });
+        });
+    </script>
+</body>
+</html>

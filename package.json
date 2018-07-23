@@ -1,0 +1,19 @@
+{
+  "name": "dalviroo",
+  "version": "1.0.0",
+  "description": "Dalviroo is hypothetical an on­demand food delivery company.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "Denzil Godwin Griffiths",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
+    "express": "^4.16.3",
+    "mongoose": "^5.2.3",
+    "socket.io": "^2.1.1"
+  }
+}
